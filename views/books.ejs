@@ -74,11 +74,12 @@
                  
                     <div class="h-44 flex items-center justify-center bg-[#efebe2] px-4 py-3">
 
-                        <img
-                            src="/images/<%= (book.image || '').replace(/^\/?images\//, '') %>"
-                            alt="<%= book.title %>"
-                            class="h-36 max-w-full object-contain hover:scale-105 transition duration-300"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        
+                <img
+                    src="<%= book.image ? (book.image.startsWith('/images/') ? book.image : '/images/' + book.image.replace(/^\/?images\//, '')) : '' %>"
+                    alt="<%= book.title %>"
+                    class="h-36 max-w-full object-contain hover:scale-105 transition duration-300"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
 
                         <div style="display:none;"
                             class="h-full w-full items-center justify-center text-sm text-gray-500 text-center">
