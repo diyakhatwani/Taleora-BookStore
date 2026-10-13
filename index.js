@@ -32,15 +32,18 @@ app.use(express.static(viewsPath));
 
 app.use(express.urlencoded({ extended: true }));
 
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
+        secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        sameSite: 'lax'
+        maxAge: 24 * 60 * 60 * 1000
     }
 }));
+
 
 app.use((req, res, next) => {
     res.locals.isAdmin = Boolean(req.session.isAdmin);
@@ -86,9 +89,8 @@ const upload = multer({
 
 // mongoose.connect('')
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log('MongoDB Error:', err));
-
+    .then(() => console.log("MongoDB connected"))
+    .catch((err) => console.error("MongoDB connection error:", err.message));
 
 
 const bookSchema = new mongoose.Schema({
