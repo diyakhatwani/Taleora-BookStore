@@ -6,7 +6,7 @@ const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000
 
 require('dotenv').config({
     path: require('path').join(__dirname, '.env')
@@ -33,7 +33,7 @@ app.use(express.static(viewsPath));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'bookstoresecret',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -84,7 +84,8 @@ const upload = multer({
 
 // Mongodb
 
-mongoose.connect('mongodb://127.0.0.1:27017/bookstore')
+// mongoose.connect('')
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log('MongoDB Error:', err));
 
@@ -170,30 +171,20 @@ app.get('/admin/login', (req, res) => {
     });
 });
 
-
 app.post('/admin/login', (req, res) => {
-    const username = String(req.body.username || '').trim();
-    const password = String(req.body.password || '');
+    const username = (req.body.username || '').trim();
+    const password = req.body.password || '';
 
-    const correctUsername = String(ADMIN_USERNAME || '').trim();
-    const correctPassword = String(ADMIN_PASSWORD || '');
+    console.log('Admin username loaded:', JSON.stringify(ADMIN_USERNAME));
+    console.log('Username entered:', JSON.stringify(username));
 
-    console.log('Username matches:', username === correctUsername);
-
-    if (!correctUsername || !correctPassword) {
-        console.log('Admin credentials are missing.');
-        return res.status(500).render('adminlogin', {
-            error: 'Admin credentials are not configured. Check your .env file.'
-        });
-    }
-
-    if (username !== correctUsername) {
+    if (username !== ADMIN_USERNAME) {
         return res.status(401).render('adminlogin', {
             error: 'Invalid username.'
         });
     }
 
-    if (password !== correctPassword) {
+    if (password !== ADMIN_PASSWORD) {
         return res.status(401).render('adminlogin', {
             error: 'Incorrect password. Please try again.'
         });
@@ -201,16 +192,15 @@ app.post('/admin/login', (req, res) => {
 
     req.session.isAdmin = true;
 
-    req.session.save((err) => {
+    req.session.save(err => {
         if (err) {
-            console.error('Session save error:', err);
-            return res.status(500).send('Login failed. Please try again.');
+            console.log(err);
+            return res.status(500).send('Login failed');
         }
 
-        return res.redirect('/books');
+        res.redirect('/books');
     });
 });
-
 
 app.get('/admin/logout', (req, res) => {
     req.session.destroy(err => {
@@ -390,7 +380,7 @@ app.post('/books/edit/:id', isAdmin, upload.single('img'), async (req, res) => {
         const book = await Book.findByIdAndUpdate(
             req.params.id,
             updates,
-           { returnDocument: 'after', runValidators: true }
+            { returnDocument: 'after', runValidators: true }
         );
 
         if (!book) {
@@ -550,7 +540,7 @@ app.get('/cart/checkout', async (req, res) => {
             return res.redirect('/cart');
         }
 
-     res.render('cart', { cartItems, total, checkoutMode: true });
+        res.render('cart', { cartItems, total, checkoutMode: true });
     } catch (err) {
         console.log(err);
         res.status(500).send('Unable to open cart checkout');
@@ -725,7 +715,7 @@ app.post('/admin/orders/:id/status', isAdmin, async (req, res) => {
         const order = await Order.findByIdAndUpdate(
             req.params.id,
             { status },
-           { returnDocument: 'after' }
+            { returnDocument: 'after' }
         );
 
         if (!order) {
@@ -831,10 +821,10 @@ app.post('/contact', async (req, res) => {
                 error: 'Email is not configured yet. Please try again later.'
             });
         }
-       console.log("Contact route reached. Email configured:", Boolean(EMAIL_USER && EMAIL_PASS && CONTACT_EMAIL));
+        console.log("Contact route reached. Email configured:", Boolean(EMAIL_USER && EMAIL_PASS && CONTACT_EMAIL));
 
-     
-            await transport.sendMail({
+
+        await transport.sendMail({
             from: EMAIL_USER,
             to: CONTACT_EMAIL,
             replyTo: email.trim(),
