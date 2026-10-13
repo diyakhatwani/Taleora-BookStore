@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders - Read Me Book Store</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen flex flex-col bg-[#f7f4ed] text-gray-900">
+    <%- include('includes/nav.ejs') %>
+
+   <main class="flex-1 w-full max-w-6xl mx-auto px-5 py-10">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-[#25483f]">Customer Orders</h1>
+                <p class="text-gray-600 mt-2">View and manage bookstore orders.</p>
+            </div>
+
+            <a href="/books/manage"
+               class="border border-[#25483f] text-[#25483f] px-4 py-2">
+                Manage Books
+            </a>
+        </div>
+
+        <% if (orders.length === 0) { %>
+            <div class="bg-white border border-[#e3ded4] p-8">
+                No orders have been placed yet.
+            </div>
+        <% } else { %>
+            <div class="space-y-5">
+                <% orders.forEach(order => { %>
+                    <section class="bg-white border border-[#e3ded4] p-5">
+                        <div class="flex flex-wrap justify-between gap-3 mb-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Order ID</p>
+                                <p class="font-medium break-all"><%= order._id %></p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-gray-500">Order Date</p>
+                                <p class="font-medium">
+                                    <%= order.createdAt.toLocaleString('en-IN') %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Book</p>
+                                <p class="font-medium"><%= order.bookTitle %></p>
+                                <p class="text-[#25483f] font-semibold">₹<%= order.price %></p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-gray-500">Customer</p>
+                                <p class="font-medium"><%= order.customerName %></p>
+                                <p><%= order.mobile %></p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-gray-500">Delivery Address</p>
+                                <p><%= order.address %>, <%= order.city %> - <%= order.pincode %></p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-between gap-4 mt-5 pt-4 border-t border-gray-200">
+                            <p class="text-sm">
+                                Payment: <strong>Cash on Delivery</strong>
+                                <span class="ml-2">Status: <strong><%= order.status %></strong></span>
+                            </p>
+
+                            <form action="/admin/orders/<%= order._id %>/status" method="POST"
+                                  class="flex flex-wrap gap-2">
+                                <select name="status" required
+                                        class="border border-gray-300 px-3 py-2">
+                                    <% ['Pending', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'].forEach(status => { %>
+                                        <option value="<%= status %>" <%= order.status === status ? 'selected' : '' %>>
+                                            <%= status %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+
+                                <button type="submit"
+                                        class="bg-[#25483f] text-white px-4 py-2">
+                                    Update
+                                </button>
+                            </form>
+                        </div>
+                    </section>
+                <% }) %>
+            </div>
+        <% } %>
+    </main>
+
+    <%- include('includes/footer.ejs') %>
+</body>
+</html>

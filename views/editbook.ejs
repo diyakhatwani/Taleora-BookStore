@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Books - Read Me</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed] text-[#292f29]">
+
+    <!-- Navbar -->
+    <%- include('includes/nav.ejs') %>
+
+    <main class="max-w-6xl mx-auto px-5 py-10">
+
+        <% if (mode === 'manage') { %>
+
+            <!-- Page Heading -->
+            <div class="mb-8 border-b border-[#d7d1c5] pb-6">
+                <p class="text-sm uppercase tracking-[2px] text-[#b76549] font-semibold mb-2">
+                    Admin Panel
+                </p>
+
+                <h1 class="text-3xl md:text-4xl font-bold text-[#25483f]">
+                    Manage Books
+                </h1>
+
+                <p class="text-[#62665d] mt-2">
+                    Add new books and manage your bookstore collection.
+                </p>
+
+                <div class="flex flex-wrap gap-3 mt-5">
+                    <a href="/books"
+                       class="bg-[#25483f] hover:bg-[#19382f] text-white px-4 py-2 text-sm font-medium transition">
+                        View Books
+                    </a>
+
+                    <a href="/admin/orders"
+                       class="border border-[#d7d1c5] hover:bg-[#efebe2] text-[#25483f] px-4 py-2 text-sm font-medium transition">
+                        View Orders
+                    </a>
+                </div>
+            </div>
+
+            <!-- Add Book Form -->
+            <section class="bg-white border border-[#e3ded4] rounded-lg p-5 md:p-7 mb-10">
+
+                <h2 class="text-xl font-bold text-[#25483f] mb-2">
+                    Add New Book
+                </h2>
+
+                <p class="text-sm text-[#62665d] mb-6">
+                    Enter the book details and upload its cover image.
+                </p>
+
+                <form action="/books/new" method="POST" enctype="multipart/form-data">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Book Title
+                            </label>
+
+                            <input type="text" name="title"
+                                   placeholder="Enter book title"
+                                   required
+                                   class="w-full rounded-md border border-[#d7d1c5] bg-white px-3 py-2.5 focus:outline-none focus:border-[#25483f]">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Author Name
+                            </label>
+
+                            <input type="text" name="authorName"
+                                   placeholder="Enter author name"
+                                   required
+                                   class="w-full rounded-md border border-[#d7d1c5] bg-white px-3 py-2.5 focus:outline-none focus:border-[#25483f]">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Category
+                            </label>
+
+                            <input type="text" name="category"
+                                   placeholder="e.g. Fiction, Programming"
+                                   required
+                                   class="w-full rounded-md border border-[#d7d1c5] bg-white px-3 py-2.5 focus:outline-none focus:border-[#25483f]">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Price (₹)
+                            </label>
+
+                            <input type="number" name="price"
+                                   placeholder="Enter price"
+                                   min="0" step="any" required
+                                   class="w-full rounded-md border border-[#d7d1c5] bg-white px-3 py-2.5 focus:outline-none focus:border-[#25483f]">
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-2">
+                                Book Cover Image
+                            </label>
+
+                            <input type="file" name="img" accept="image/*"
+                                   class="w-full rounded-md border border-[#d7d1c5] bg-white px-3 py-2.5 text-sm">
+
+                            <p class="text-xs text-[#77796f] mt-2">
+                                Select an image from your computer. Maximum file size: 5 MB.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap items-center gap-4">
+                        <button type="submit"
+                                class="bg-[#25483f] hover:bg-[#19382f] text-white px-6 py-2.5 rounded-md text-sm font-semibold transition">
+                            Add Book
+                        </button>
+
+                        <a href="/books"
+                           class="text-[#62665d] hover:text-[#25483f] text-sm underline">
+                            Cancel
+                        </a>
+                    </div>
+
+                </form>
+            </section>
+
+            <!-- Existing Books -->
+            <section>
+
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-[#25483f]">
+                            Existing Books
+                        </h2>
+
+                        <p class="text-sm text-[#62665d] mt-1">
+                            Update details of books already in your store.
+                        </p>
+                    </div>
+
+                    <span class="text-sm bg-white border border-[#e3ded4] rounded-md px-3 py-2 text-[#62665d]">
+                        Total: <%= books.length %> books
+                    </span>
+                </div>
+
+                <div class="space-y-3">
+
+                    <% if (books.length === 0) { %>
+
+                        <div class="bg-white border border-[#e3ded4] rounded-lg p-8 text-center">
+                            <h3 class="font-semibold text-[#25483f]">
+                                No books available
+                            </h3>
+
+                            <p class="text-sm text-[#62665d] mt-2">
+                                Add your first book using the form above.
+                            </p>
+                        </div>
+
+                    <% } else { %>
+
+                        <% books.forEach(function(book) { %>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-4 bg-white border border-[#e3ded4] rounded-lg p-4">
+
+                                <!-- Book Image -->
+                                <div class="w-20 h-28 shrink-0 flex items-center justify-center bg-[#efebe2] rounded-md overflow-hidden">
+
+                                    <% if (book.image) { %>
+
+                                        <img
+                                            src="/images/<%= book.image.replace(/^\/?images\//, '') %>"
+                                            alt="<%= book.title %>"
+                                            class="w-full h-full object-contain p-1"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                        <div style="display:none"
+                                             class="w-full h-full items-center justify-center text-xs text-center text-[#77796f] px-1">
+                                            Image unavailable
+                                        </div>
+
+                                    <% } else { %>
+
+                                        <div class="text-xs text-center text-[#77796f] px-1">
+                                            No Image
+                                        </div>
+
+                                    <% } %>
+
+                                </div>
+
+                                <!-- Book Details -->
+                                <div class="flex-1 min-w-0">
+
+                                    <h3 class="font-bold text-[#25483f] break-words">
+                                        <%= book.title %>
+                                    </h3>
+
+                                    <p class="text-sm text-[#62665d] mt-1">
+                                        By <%= book.authorName %>
+                                    </p>
+
+                                    <p class="text-xs text-[#77796f] mt-1">
+                                        <%= book.category %>
+                                    </p>
+
+                                    <p class="text-base font-bold text-[#25483f] mt-2">
+                                        ₹<%= book.price %>
+                                    </p>
+
+                                </div>
+
+                                <!-- Edit Button -->
+                                <div class="sm:ml-auto">
+                                    <a href="/books/edit/<%= book._id %>"
+                                       class="inline-block text-center bg-[#25483f] hover:bg-[#19382f] text-white px-5 py-2 rounded-md text-sm font-semibold transition">
+                                        Edit Book
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        <% }); %>
+
+                    <% } %>
+
+                </div>
+            </section>
+
+        <% } else { %>
+
+            <!-- Edit Book Heading -->
+            <div class="mb-8 border-b border-[#d7d1c5] pb-6">
+                <p class="text-sm uppercase tracking-[2px] text-[#b76549] font-semibold mb-2">
+                    Admin Panel
+                </p>
+
+                <h1 class="text-3xl md:text-4xl font-bold text-[#25483f]">
+                    Edit Book
+                </h1>
+
+                <p class="text-[#62665d] mt-2">
+                    Update the details of your selected book.
+                </p>
+            </div>
+
+            <!-- Edit Book Form -->
+            <section class="bg-white border border-[#e3ded4] rounded-lg p-5 md:p-7 max-w-3xl">
+
+                <form action="/books/edit/<%= book._id %>"
+                      method="POST"
+                      enctype="multipart/form-data">
+
+                    <div class="space-y-5">
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Book Title
+                            </label>
+
+                            <input type="text" name="title"
+                                   value="<%= book.title %>"
+                                   required
+                                   class="w-full rounded-md border border-[#d7d1c5] px-3 py-2.5 focus:outline-none focus:border-[#25483f]">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Author Name
+                            </label>
+
+                            <input type="text" name="authorName"
+                                   value="<%= book.authorName %>"
+                                   required
+                                   class="w-full rounded-md border border-[#d7d1c5] px-3 py-2.5 focus:outline-none focus:border-[#25483f]">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Category
+                            </label>
+
+                            <input type="text" name="category"
+                                   value="<%= book.category %>"
+                                   required
+                                   class="w-full rounded-md border border-[#d7d1c5] px-3 py-2.5 focus:outline-none focus:border-[#25483f]">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Price (₹)
+                            </label>
+
+                            <input type="number" name="price"
+                                   value="<%= book.price %>"
+                                   min="0" step="any" required
+                                   class="w-full rounded-md border border-[#d7d1c5] px-3 py-2.5 focus:outline-none focus:border-[#25483f]">
+                        </div>
+
+                        <!-- Current Book Cover -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-3">
+                                Current Book Cover
+                            </label>
+
+                            <% if (book.image) { %>
+
+                                <img
+                                    src="/images/<%= book.image.replace(/^\/?images\//, '') %>"
+                                    alt="<%= book.title %>"
+                                    class="w-28 h-40 object-contain bg-[#efebe2] border border-[#e3ded4] rounded-md p-2"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+
+                                <p style="display:none" class="text-sm text-red-600 mt-2">
+                                    Current image could not be loaded. You can upload a replacement below.
+                                </p>
+
+                            <% } else { %>
+
+                                <p class="text-sm text-[#77796f]">
+                                    No cover image saved for this book.
+                                </p>
+
+                            <% } %>
+                        </div>
+
+                        <!-- Replace Image -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">
+                                Change Book Cover (Optional)
+                            </label>
+
+                            <input type="file" name="img" accept="image/*"
+                                   class="w-full rounded-md border border-[#d7d1c5] bg-white px-3 py-2.5 text-sm">
+
+                            <p class="text-xs text-[#77796f] mt-2">
+                                Leave this empty to keep the current image.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-7 flex flex-wrap items-center gap-4">
+
+                        <button type="submit"
+                                class="bg-[#25483f] hover:bg-[#19382f] text-white px-6 py-2.5 rounded-md text-sm font-semibold transition">
+                            Update Book
+                        </button>
+
+                        <a href="/books/manage"
+                           class="border border-[#d7d1c5] hover:bg-[#efebe2] text-[#25483f] px-6 py-2.5 rounded-md text-sm font-semibold transition">
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+            </section>
+
+        <% } %>
+
+    </main>
+
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

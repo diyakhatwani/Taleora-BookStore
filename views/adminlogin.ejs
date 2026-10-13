@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | BookStore</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed] min-h-screen flex flex-col">
+
+   
+    <%- include('includes/nav.ejs') %>
+
+    
+    <main class="flex-1 flex items-center justify-center px-5 py-12">
+
+        <div class="bg-white border border-[#e2ddd3] shadow-sm w-full max-w-md p-7 sm:p-9">
+
+           
+            <div class="mb-7">
+                <p class="text-xs font-semibold uppercase tracking-[2px] text-[#b76549] mb-3">
+                    Read Me Book Store
+                </p>
+
+                <h1 class="text-3xl font-bold text-[#25483f]">
+                    Admin 
+                </h1>
+
+                <p class="text-sm text-[#62665d] mt-2">
+                    Sign in to manage your bookstore.
+                </p>
+            </div>
+
+        
+            <form action="/admin/login" method="POST">
+
+                <div class="mb-5">
+                    <label for="username"
+                           class="block text-sm font-semibold text-[#292f29] mb-2">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        required
+                        autocomplete="username"
+                        placeholder="Enter username"
+                        class="w-full border border-[#dcd8ce] bg-[#fdfcf9] px-4 py-3 text-sm outline-none focus:border-[#25483f]">
+                </div>
+
+                <div class="mb-6">
+                    <label for="password"
+                           class="block text-sm font-semibold text-[#292f29] mb-2">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        autocomplete="current-password"
+                        placeholder="Enter password"
+                        class="w-full border border-[#dcd8ce] bg-[#fdfcf9] px-4 py-3 text-sm outline-none focus:border-[#25483f]">
+                </div>
+
+                <% if (typeof error !== 'undefined' && error) { %>
+                     <p class="text-red-600 text-sm mt-2 mb-3">
+               <%= error %>
+              </p>
+            <% } %>
+                <button
+                    type="submit"
+                    class="w-full bg-[#25483f] hover:bg-[#19382f] text-white font-semibold text-sm py-3 transition-colors">
+                    Login
+                </button>
+
+            </form>
+
+            
+            <div class="border-t border-[#e8e3da] mt-6 pt-5 text-center">
+                <a href="/"
+                   class="text-sm text-[#62665d] hover:text-[#25483f] underline underline-offset-4">
+                     Back to Home
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

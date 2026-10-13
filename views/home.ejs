@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Me | BookStore</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed] text-[#292f29]">
+
+    <!-- Navbar -->
+    <%- include('includes/nav.ejs') %>
+
+
+    <!-- Hero Section -->
+    <section class="bg-[#f7f4ed] overflow-hidden">
+
+        <div class="max-w-6xl mx-auto px-6 py-14 md:py-20">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+                <!-- Left Content -->
+                <div>
+
+                    <p class="text-sm uppercase tracking-[3px] text-[#a45b43] font-semibold mb-5">
+                        A little place for book lovers
+                    </p>
+
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight tracking-tight text-[#25483f]">
+                        Every book has
+                        <span class="text-[#b76549]">a story.</span>
+                        <br>
+                        Find yours.
+                    </h1>
+
+                    <p class="text-[#62665d] text-base md:text-lg leading-8 mt-6 max-w-lg">
+                        From stories that take you somewhere new to books
+                        that teach you something useful, your next favourite
+                        read might be waiting right here.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-5 mt-8">
+
+                        <a href="/books"
+                           class="inline-block bg-[#25483f] text-white px-7 py-3 font-semibold hover:bg-[#19382f] transition-colors">
+                            Explore Books 
+                        </a>
+
+                        <a href="/category"
+                           class="inline-block bg-[#25483f] text-white px-7 py-3 font-semibold hover:bg-[#19382f] transition-colors">
+                            Browse Categories
+                        </a>
+
+                    </div>
+
+                    <p class="mt-10 text-sm text-[#77796f]">
+                        Fiction · Self-help · Technology · Education
+                    </p>
+
+                </div>
+
+
+                <!-- Right Side: Decorative Book Display -->
+                <div class="relative min-h-[340px] md:min-h-[410px] flex items-center justify-center">
+
+                    <div class="absolute w-72 h-72 md:w-96 md:h-96 rounded-full bg-[#e9e3d6]"></div>
+
+                    <div class="relative flex items-end justify-center gap-2 md:gap-3 rotate-[-3deg]">
+
+                        <!-- Book One -->
+                        <div class="w-24 h-56 md:w-28 md:h-64 bg-[#b76549] text-[#fff8ed] shadow-lg flex flex-col justify-between p-3 border-l-4 border-[#8e4937]">
+                            <span class="text-[10px] uppercase tracking-widest">Read Me</span>
+                            <div>
+                                <p class="text-xl md:text-2xl font-bold leading-tight">
+                                    The Art
+                                    of
+                                    Stories
+                                </p>
+                                <div class="w-8 h-px bg-[#fff8ed] mt-3"></div>
+                            </div>
+                            <span class="text-[10px]">A BOOK TO KEEP</span>
+                        </div>
+
+                        <!-- Book Two -->
+                        <div class="w-24 h-64 md:w-28 md:h-72 bg-[#25483f] text-[#f7f4ed] shadow-xl flex flex-col justify-between p-3 border-l-4 border-[#19382f] mb-4">
+                            <span class="text-[10px] uppercase tracking-widest">Read Me</span>
+                            <div>
+                                <p class="text-2xl md:text-3xl font-bold leading-tight">
+                                    Little
+                                    Things
+                                </p>
+                                <p class="text-xs mt-3 leading-5">
+                                    That make life beautiful
+                                </p>
+                            </div>
+                            <span class="text-[10px]">VOL. 01</span>
+                        </div>
+
+                        <!-- Book Three -->
+                        <div class="w-24 h-48 md:w-28 md:h-56 bg-[#d7b879] text-[#38372c] shadow-lg flex flex-col justify-between p-3 border-l-4 border-[#b69a5d]">
+                            <span class="text-[10px] uppercase tracking-widest">Read Me</span>
+                            <div>
+                                <p class="text-xl md:text-2xl font-bold leading-tight">
+                                    Think
+                                    Again
+                                </p>
+                                <div class="w-8 h-px bg-[#38372c] mt-3"></div>
+                            </div>
+                            <span class="text-[10px]">NOTES & IDEAS</span>
+                        </div>
+
+                    </div>
+
+                    <div class="absolute bottom-0 right-0 md:right-2 bg-white px-4 py-3 shadow-sm border-l-2 border-[#b76549]">
+                        <p class="text-xs uppercase tracking-widest text-[#77796f]">
+                            Your next chapter
+                        </p>
+                        <p class="font-bold text-[#25483f] mt-1">
+                            Starts here.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Small Introduction -->
+    <section class="border-y border-[#ded9ce] bg-[#efebe2]">
+
+        <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div>
+                <p class="text-[#b76549] text-sm font-semibold mb-2">01 / DISCOVER</p>
+                <h2 class="text-xl font-bold text-[#25483f]">Something new</h2>
+                <p class="text-sm text-[#62665d] leading-6 mt-2">
+                    Find books that match your interests and curiosity.
+                </p>
+            </div>
+
+            <div class="md:border-l md:border-[#d4cdbf] md:pl-8">
+                <p class="text-[#b76549] text-sm font-semibold mb-2">02 / LEARN</p>
+                <h2 class="text-xl font-bold text-[#25483f]">Grow with every page</h2>
+                <p class="text-sm text-[#62665d] leading-6 mt-2">
+                    Explore ideas, practical knowledge and fresh perspectives.
+                </p>
+            </div>
+
+            <div class="md:border-l md:border-[#d4cdbf] md:pl-8">
+                <p class="text-[#b76549] text-sm font-semibold mb-2">03 / ENJOY</p>
+                <h2 class="text-xl font-bold text-[#25483f]">Read at your pace</h2>
+                <p class="text-sm text-[#62665d] leading-6 mt-2">
+                    Because reading should feel like a pleasure, not a task.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+<!-- Categories -->
+<section class="max-w-6xl mx-auto px-6 py-12">
+
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-[#25483f]">
+            Browse Categories
+        </h2>
+
+        <a href="/category"
+           class="text-sm text-[#25483f] underline underline-offset-4">
+            View All
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <a href="/category/Fiction"
+           class="border border-[#ded9ce] bg-white p-5 hover:bg-[#efebe2]">
+            <h3 class="font-semibold text-lg text-[#25483f]">Fiction</h3>
+            <p class="text-sm text-gray-600 mt-1">Stories and novels</p>
+        </a>
+
+        <a href="/category/Self%20Help"
+           class="border border-[#ded9ce] bg-white p-5 hover:bg-[#efebe2]">
+            <h3 class="font-semibold text-lg text-[#25483f]">Self Help</h3>
+            <p class="text-sm text-gray-600 mt-1">Personal growth</p>
+        </a>
+
+        <a href="/category/Technology"
+           class="border border-[#ded9ce] bg-white p-5 hover:bg-[#efebe2]">
+            <h3 class="font-semibold text-lg text-[#25483f]">Technology</h3>
+            <p class="text-sm text-gray-600 mt-1">Computers and programming</p>
+        </a>
+
+        <a href="/category/Education"
+           class="border border-[#ded9ce] bg-white p-5 hover:bg-[#efebe2]">
+            <h3 class="font-semibold text-lg text-[#25483f]">Education</h3>
+            <p class="text-sm text-gray-600 mt-1">Books for learning</p>
+        </a>
+
+    </div>
+
+</section>
+
+
+
+    
+           
+    
+
+
+    <!-- Footer -->
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

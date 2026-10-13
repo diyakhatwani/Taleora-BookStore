@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Book Store</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed] text-gray-900">
+
+    <%- include('includes/nav') %>
+
+    <main class="max-w-6xl mx-auto px-5 py-10">
+
+        <h1 class="text-3xl font-bold text-[#25483f] mb-2">
+            Checkout
+        </h1>
+
+        <p class="text-gray-600 mb-8">
+            Enter your details to place your order.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- Customer Details -->
+            <div class="md:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+
+                <h2 class="text-xl font-semibold text-[#25483f] mb-6">
+                    Delivery Details
+                </h2>
+
+                <form action="/orders/new" method="POST" class="space-y-5">
+
+                    <input
+                        type="hidden"
+                        name="bookId"
+                        value="<%= book._id %>"
+                    >
+
+                    <div>
+                        <label for="customerName" class="block text-sm font-medium mb-2">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customerName"
+                            name="customerName"
+                            placeholder="Enter your full name"
+                            required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-[#25483f]"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="mobile" class="block text-sm font-medium mb-2">
+                            Mobile Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="mobile"
+                            name="mobile"
+                            placeholder="Enter your mobile number"
+                            pattern="[0-9]{10}"
+                            maxlength="10"
+                            required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-[#25483f]"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="address" class="block text-sm font-medium mb-2">
+                            Full Address
+                        </label>
+
+                        <textarea
+                            id="address"
+                            name="address"
+                            rows="3"
+                            placeholder="House number, street, area"
+                            required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-[#25483f]"
+                        ></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                        <div>
+                            <label for="city" class="block text-sm font-medium mb-2">
+                                City
+                            </label>
+
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                placeholder="Enter your city"
+                                required
+                                class="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-[#25483f]"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="pincode" class="block text-sm font-medium mb-2">
+                                PIN Code
+                            </label>
+
+                            <input
+                                type="text"
+                                id="pincode"
+                                name="pincode"
+                                placeholder="6-digit PIN code"
+                                pattern="[0-9]{6}"
+                                maxlength="6"
+                                required
+                                class="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-[#25483f]"
+                            >
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="w-full bg-[#25483f] hover:bg-[#1b382f] text-white font-semibold py-3 rounded-lg transition"
+                    >
+                        Place Order
+                    </button>
+
+                </form>
+
+            </div>
+
+      
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-fit">
+
+                <h2 class="text-xl font-semibold text-[#25483f] mb-6">
+                    Order Summary
+                </h2>
+
+                <div class="flex gap-4 mb-6">
+
+                    <div class="w-28 h-36 shrink-0 bg-gray-50 border border-gray-200 rounded flex items-center justify-center overflow-hidden">
+
+                        <% if (book.image) { %>
+
+                            <img
+                                src="/images/<%= book.image.replace(/^\/?images\//, '') %>"
+                                alt="<%= book.title %>"
+                                class="w-full h-full object-contain"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                            >
+
+                            <div class="hidden w-full h-full items-center justify-center text-xs text-gray-400 text-center p-2">
+                                Image unavailable
+                            </div>
+
+                        <% } else { %>
+
+                            <span class="text-xs text-gray-400 text-center p-2">
+                                No image
+                            </span>
+
+                        <% } %>
+
+                    </div>
+
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-[#25483f] break-words">
+                            <%= book.title %>
+                        </h3>
+
+                        <p class="text-sm text-gray-600 mt-1">
+                            By <%= book.authorName %>
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-1">
+                            <%= book.category %>
+                        </p>
+
+                        <p class="text-lg font-bold mt-3">
+                            ₹<%= book.price %>
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="border-t border-gray-200 pt-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Subtotal</span>
+                        <span class="font-semibold">₹<%= book.price %></span>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-3">
+                        <span class="text-gray-600">Delivery</span>
+                        <span class="text-green-700 font-medium">Free</span>
+                    </div>
+
+                    <div class="flex justify-between items-center border-t border-gray-200 mt-4 pt-4">
+                        <span class="font-bold text-lg">Total</span>
+                        <span class="font-bold text-xl text-[#25483f]">
+                            ₹<%= book.price %>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <%- include('includes/footer') %>
+
+</body>
+</html>

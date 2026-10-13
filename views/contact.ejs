@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Us - Book Store</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body class="bg-[#f7f4ed] min-h-screen flex flex-col text-[#292f29]">
+
+    
+    <%- include('includes/nav.ejs') %>
+
+    <main class="flex-1 flex items-center justify-center px-5 py-12">
+
+        
+        <section class="w-full max-w-xl bg-white border border-[#e3ded4] rounded-lg p-6 sm:p-9 shadow-sm">
+
+            <div class="text-center mb-7">
+                <h1 class="text-3xl font-bold text-[#25483f]">
+                    Contact Us
+                </h1>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    Have a question? Send us a message.
+                </p>
+            </div>
+
+    
+            
+
+            <form action="/contact" method="POST" class="space-y-5">
+
+                
+                <div>
+                    <label for="name"
+                           class="block text-sm font-medium mb-2">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        required
+                        class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none focus:border-[#25483f]">
+                </div>
+                <div>
+                    <label for="email"
+                           class="block text-sm font-medium mb-2">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        required
+                        class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none focus:border-[#25483f]">
+                </div>
+                <div>
+                    <label for="mob"
+                           class="block text-sm font-medium mb-2">
+                        Mobile Number
+                    </label>
+                     <input
+                        type="tel"
+                        id="mob"
+                        name="mob"
+                        placeholder="Enter your mobile number"
+                        class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none focus:border-[#25483f]">
+                </div>
+                <div>
+                    <label for="message"
+                           class="block text-sm font-medium mb-2">
+                        Your Message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="5"
+                        placeholder="Write your message here..."
+                        required
+                        class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none resize-y focus:border-[#25483f]"></textarea>
+                </div>
+                <button
+                    type="submit"
+                    class="w-full bg-[#25483f] hover:bg-[#19382f] text-white py-3 rounded-md text-sm font-semibold transition">
+
+                    <i class="fa-regular fa-paper-plane mr-2"></i>
+                    Send Message
+                </button>
+            </form>
+        </section>
+    </main>
+
+
+<% if (typeof message !== 'undefined' && message) { %>
+    <script>
+        alert("Your message has been sent successfully!");
+    </script>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+    <script>
+        alert("Unable to send your message. Please try again.");
+    </script>
+<% } %>
+
+
+</body>
+
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

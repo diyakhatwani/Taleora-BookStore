@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - BookStore</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed]">
+
+  
+    <%- include('includes/nav.ejs') %>
+
+    <div class="max-w-6xl mx-auto px-6 mt-10">
+        <h1 class="text-3xl font-bold text-[#25483f]">
+            Categories
+        </h1>
+
+        <p class="text-sm text-[#62665d] mt-2">
+            Explore books by your favourite category.
+        </p>
+    </div>
+
+   
+    <div class="max-w-6xl mx-auto px-6 mt-7 mb-10">
+
+        <div class="flex flex-wrap gap-2">
+
+            <a href="/category"
+               class="px-5 py-2 text-sm font-medium bg-[#25483f] text-white border border-[#25483f]">
+                All
+            </a>
+
+            <a href="/category/Fiction"
+               class="px-5 py-2 text-sm font-medium text-[#25483f] bg-white border border-[#dcd8ce] hover:bg-[#efebe2]">
+                Fiction
+            </a>
+
+            <a href="/category/Self%20Help"
+               class="px-5 py-2 text-sm font-medium text-[#25483f] bg-white border border-[#dcd8ce] hover:bg-[#efebe2]">
+                Self Help
+            </a>
+
+            <a href="/category/Technology"
+               class="px-5 py-2 text-sm font-medium text-[#25483f] bg-white border border-[#dcd8ce] hover:bg-[#efebe2]">
+                Technology
+            </a>
+
+            <a href="/category/Education"
+               class="px-5 py-2 text-sm font-medium text-[#25483f] bg-white border border-[#dcd8ce] hover:bg-[#efebe2]">
+                Education
+            </a>
+
+        </div>
+    </div>
+
+    
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 px-6 pb-12">
+
+        <% if (books && books.length) { %>
+
+            <% books.forEach(book => { %>
+
+                <div class="w-full max-w-[240px] mx-auto bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 overflow-hidden">
+
+                   
+                    <div class="h-44 flex items-center justify-center bg-white px-4 py-3">
+
+                        <% if (book.image) { %>
+                            <img
+                                src="/images/<%= book.image %>"
+                                alt="<%= book.title %>"
+                                class="h-36 w-auto max-w-full object-contain"
+                                onerror="this.style.display='none';"
+                            >
+                        <% } else { %>
+                            <p class="text-sm text-gray-400">
+                                No image available
+                            </p>
+                        <% } %>
+
+                    </div>
+
+                   
+                    <div class="px-4 py-3">
+
+                        <h2 class="text-base font-bold text-[#25483f] truncate">
+                            <%= book.title %>
+                        </h2>
+
+                        <p class="text-xs text-gray-500 mt-1 truncate">
+                            By <%= book.authorName %>
+                        </p>
+
+                        <div class="flex items-center justify-between mt-3">
+
+                            <p class="text-base font-bold text-[#25483f]">
+                                ₹<%= book.price %>
+                            </p>
+
+                            <span class="text-[11px] text-gray-500 truncate ml-2">
+                                <%= book.category %>
+                            </span>
+
+                        </div>
+
+                       
+
+<div class="flex gap-2 mt-3">
+
+    <form action="/cart/add" method="POST" class="flex-1">
+        <input type="hidden" name="bookId" value="<%= book._id %>">
+
+        <button
+            type="submit"
+            class="w-full bg-gray-100 hover:bg-gray-200 text-[#25483f] text-xs font-semibold py-2 rounded-md">
+            Add to Cart
+        </button>
+    </form>
+
+    <a
+        href="/buy-now/<%= book._id %>"
+        class="flex-1 bg-[#25483f] hover:bg-[#19382f] text-white text-xs font-semibold py-2 rounded-md text-center flex items-center justify-center">
+        Buy Now
+    </a>
+
+</div>
+
+
+                    </div>
+                </div>
+
+            <% }) %>
+
+        <% } else { %>
+
+            <p class="text-center text-gray-500 col-span-full py-10">
+                No books found in this category.
+            </p>
+
+        <% } %>
+
+    </div>
+
+   
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About Us | Book Store</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed] min-h-screen flex flex-col">
+
+    <%- include('includes/nav.ejs') %>
+
+    <main class="flex-1">
+
+        <section class="max-w-6xl mx-auto px-6 pt-12 md:pt-16 pb-14">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
+
+               
+                <div>
+
+                    <p class="text-sm text-[#b76549] mb-5">
+                        ABOUT READ ME
+                    </p>
+
+                    <h1 class="text-4xl md:text-5xl font-semibold text-[#25483f] leading-tight">
+                        A place for<br>
+                        people who<br>
+                        <span class="italic font-normal">love to read.</span>
+                    </h1>
+
+                    <div class="w-14 h-[2px] bg-[#b76549] my-7"></div>
+
+                    <p class="text-gray-600 leading-7 max-w-lg">
+                        Some people read to learn something new. Some read to
+                        escape into another world. And some simply enjoy the
+                        feeling of turning the next page.
+                    </p>
+
+                    <p class="text-gray-600 leading-7 max-w-lg mt-4">
+                        Read Me Book Store brings together books from different
+                        genres, making it easier to browse, discover, and find
+                        a book that feels right for you.
+                    </p>
+
+                    <a href="/books"
+                       class="inline-block mt-7 text-[#25483f] border-b border-[#25483f] pb-1 text-sm font-medium hover:text-[#b76549] hover:border-[#b76549] transition-colors">
+                        Take a look at our books &rarr;
+                    </a>
+
+                </div>
+
+               
+                <div class="relative">
+
+                    <img
+                   src="/images/ab.jpg"
+                     alt="Books arranged on library shelves"
+                   class="w-full h-[320px] md:h-[420px] object-cover">
+
+                    <p class="text-sm text-gray-500 mt-3">
+                        A little space for a lot of stories.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+                
+
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

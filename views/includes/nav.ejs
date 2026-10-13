@@ -1,0 +1,52 @@
+
+<nav class="bg-[#25483f] text-[#f7f4ed]">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+
+        <a href="/" class="flex flex-col leading-tight hover:text-[#d7b879] transition-colors">
+            <span class="text-2xl font-bold tracking-wide">
+                Taleora<span class="text-[#d7b879]">.</span>
+            </span>
+            <span class="text-[9px] tracking-[2px] text-[#d7b879] mt-1">
+                EVERY PAGE HAS A STORY
+            </span>
+        </a>
+
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium">
+            <a href="/" class="hover:text-[#d7b879]">Home</a>
+            <a href="/about" class="hover:text-[#d7b879]">About</a>
+            <a href="/books" class="hover:text-[#d7b879]">Books</a>
+            <a href="/category" class="hover:text-[#d7b879]">Categories</a>
+            <a href="/contact" class="hover:text-[#d7b879]">Contact</a>
+
+            <% if (!isAdmin) { %>
+                <a href="/cart"
+                   class="inline-flex items-center gap-2 hover:text-[#d7b879]"
+                   aria-label="Shopping cart">
+                    <span class="text-xl">🛒</span>
+                    <span>Cart</span>
+                    <span class="bg-[#d7b879] text-[#25483f] rounded-full min-w-5 h-5 px-1 flex items-center justify-center text-xs font-bold">
+                        <%= cartCount %>
+                    </span>
+                </a>
+
+                <a href="/admin/login"
+                   class="bg-[#d7b879] text-[#25483f] px-4 py-2 rounded-md hover:bg-[#e5c991] transition-colors">
+                    Admin
+                </a>
+            <% } else { %>
+                <a href="/books/manage" class="hover:text-[#d7b879]">
+                    Manage Books
+                </a>
+
+                <a href="/admin/orders" class="hover:text-[#d7b879]">
+                    Orders
+                </a>
+
+                <a href="/admin/logout"
+                   class="bg-[#d7b879] text-[#25483f] px-4 py-2 rounded-md hover:bg-[#e5c991] transition-colors">
+                    Logout
+                </a>
+            <% } %>
+        </div>
+    </div>
+</nav>

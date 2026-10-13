@@ -1,0 +1,96 @@
+/* Contact Page */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f8fc;
+    margin: 0;
+}
+
+
+/* Contact Heading */
+
+.contact-heading {
+    text-align: center;
+    color: #12355b;
+    font-size: 36px;
+    margin-top: 45px;
+    margin-bottom: 30px;
+}
+
+
+/* Contact Form */
+
+.contact-form {
+    width: 600px;
+    max-width: 90%;
+    margin: 0 auto 60px;
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #d5e2ed;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+
+/* Labels */
+
+.contact-form label {
+    display: block;
+    color: #12355b;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+
+/* Inputs */
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 20px;
+    border: 1px solid #c7d5e2;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+
+/* Message Box */
+
+.contact-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+
+/* Input Focus */
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #1769aa;
+}
+
+
+/* Send Button */
+
+.contact-form button {
+    display: block;
+    margin: 5px auto 0;
+    background-color: #1769aa;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+/* Button Hover */
+
+.contact-form button:hover {
+    background-color: #12355b;
+}

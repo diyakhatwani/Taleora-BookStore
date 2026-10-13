@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart - BookStore</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed] min-h-screen flex flex-col">
+    <%- include('includes/nav.ejs') %>
+
+  <main class="flex-grow w-full max-w-5xl mx-auto px-6 py-10">
+
+        <% if (typeof checkoutMode !== 'undefined' && checkoutMode) { %>
+
+            <h1 class="text-3xl font-bold text-[#25483f] mb-6">Checkout</h1>
+
+            <div class="bg-white border border-[#d7d1c5] rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-bold text-[#25483f] mb-4">Order Summary</h2>
+
+                <% cartItems.forEach(item => { %>
+                    <div class="flex justify-between gap-4 py-2 border-b border-gray-100">
+                        <span><%= item.book.title %> × <%= item.quantity %></span>
+                        <span>₹<%= item.book.price * item.quantity %></span>
+                    </div>
+                <% }) %>
+
+                <div class="flex justify-between font-bold text-lg mt-4">
+                    <span>Total</span>
+                    <span>₹<%= total %></span>
+                </div>
+
+                <p class="text-sm text-gray-500 mt-2">Payment: Cash on Delivery</p>
+            </div>
+
+            <form action="/cart/checkout" method="POST"
+                  class="bg-white border border-[#d7d1c5] rounded-lg p-6 space-y-4">
+
+                <h2 class="text-xl font-bold text-[#25483f]">Delivery Details</h2>
+
+                <input type="text" name="customerName" required maxlength="100"
+                       placeholder="Full Name"
+                       class="w-full border border-gray-300 rounded-md p-3">
+
+                <input type="tel" name="mobile" required
+                       pattern="[0-9]{10}" maxlength="10" inputmode="numeric"
+                       placeholder="10-digit Mobile Number"
+                       class="w-full border border-gray-300 rounded-md p-3">
+
+                <textarea name="address" required maxlength="500"
+                          placeholder="Full Delivery Address"
+                          class="w-full border border-gray-300 rounded-md p-3"></textarea>
+
+                <input type="text" name="city" required maxlength="100"
+                       placeholder="City"
+                       class="w-full border border-gray-300 rounded-md p-3">
+
+                <input type="text" name="pincode" required
+                       pattern="[0-9]{6}" maxlength="6" inputmode="numeric"
+                       placeholder="6-digit PIN Code"
+                       class="w-full border border-gray-300 rounded-md p-3">
+
+                <button type="submit"
+                        class="w-full bg-[#25483f] hover:bg-[#19382f] text-white font-semibold p-3 rounded-md">
+                    Place Order - ₹<%= total %>
+                </button>
+
+                <a href="/cart" class="block text-center text-[#25483f] hover:underline">
+                    Back to Cart
+                </a>
+            </form>
+
+        <% } else { %>
+
+            <h1 class="text-3xl font-bold text-[#25483f] mb-2">Your Shopping Cart</h1>
+            <p class="text-gray-600 mb-8">Your favourite books, all in one place.</p>
+
+            <% if (cartItems.length === 0) { %>
+
+                <div class="bg-white border border-[#d7d1c5] rounded-lg p-8 text-center">
+                    <p class="mb-5 text-gray-600">Your cart is empty.</p>
+
+                    <a href="/books"
+                       class="inline-block bg-[#25483f] hover:bg-[#19382f] text-white px-5 py-3 rounded-md">
+                        Browse Books
+                    </a>
+                </div>
+
+            <% } else { %>
+
+                <div class="space-y-4">
+
+                    <% cartItems.forEach(item => { %>
+
+                        <div class="bg-white border border-[#d7d1c5] rounded-lg p-4 flex flex-wrap gap-4 items-center">
+
+                            <div class="w-20 h-24 bg-[#efebe2] flex items-center justify-center">
+                                <% if (item.book.image) { %>
+                                    <img
+                                        src="/images/<%= item.book.image.replace(/^\/?images\//, '') %>"
+                                        alt="<%= item.book.title %>"
+                                        class="max-h-full max-w-full object-contain"
+                                        onerror="this.style.display='none'">
+                                <% } %>
+                            </div>
+
+                            <div class="flex-1 min-w-[130px]">
+                                <h2 class="font-bold text-[#25483f]">
+                                    <%= item.book.title %>
+                                </h2>
+
+                                <p class="text-sm text-gray-500">
+                                    By <%= item.book.authorName %>
+                                </p>
+
+                                <p class="font-semibold mt-2">
+                                    ₹<%= item.book.price %> each
+                                </p>
+                            </div>
+
+                            <form action="/cart/update/<%= item.book._id %>"
+                                  method="POST" class="flex items-center gap-2">
+
+                                <input type="number" name="quantity"
+                                       min="1" max="99" required
+                                       value="<%= item.quantity %>"
+                                       aria-label="Quantity"
+                                       class="border border-gray-300 rounded-md w-16 p-2">
+
+                                <button type="submit"
+                                        class="bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-md text-sm">
+                                    Update
+                                </button>
+                            </form>
+
+                            <form action="/cart/remove/<%= item.book._id %>" method="POST">
+                                <button type="submit"
+                                        class="text-red-600 text-sm hover:underline">
+                                    Remove
+                                </button>
+                            </form>
+
+                            <p class="font-bold text-[#25483f]">
+                                ₹<%= item.book.price * item.quantity %>
+                            </p>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+                <div class="mt-8 bg-white border border-[#d7d1c5] rounded-lg p-6">
+
+                    <div class="flex justify-between text-xl font-bold mb-5">
+                        <span>Total Amount</span>
+                        <span>₹<%= total %></span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-3">
+                        <a href="/books"
+                           class="border border-[#25483f] text-[#25483f] px-5 py-3 rounded-md">
+                            Continue Shopping
+                        </a>
+
+                        <a href="/cart/checkout"
+                           class="bg-[#25483f] hover:bg-[#19382f] text-white px-5 py-3 rounded-md">
+                            Proceed to Checkout
+                        </a>
+                    </div>
+
+                </div>
+
+            <% } %>
+
+        <% } %>
+
+    </main>
+
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

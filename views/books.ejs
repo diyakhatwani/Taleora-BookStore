@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books - BookStore</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed] text-[#292f29]">
+
+    <%- include('includes/nav.ejs') %>
+
+    
+    <% if (isAdmin) { %>
+        <div class="max-w-6xl mx-auto px-6 pt-6 flex flex-wrap gap-3 items-center">
+
+            <a href="/books/manage"
+                class="bg-[#25483f] hover:bg-[#19382f] text-white px-4 py-2 text-sm font-medium">
+                Manage Books
+            </a>
+
+            <a href="/admin/orders"
+                class="bg-[#25483f] hover:bg-[#19382f] text-white px-4 py-2 text-sm font-medium">
+                View Orders
+            </a>
+
+            <a href="/admin/logout"
+                class="border border-[#d7d1c5] text-[#25483f] hover:bg-[#efebe2] px-4 py-2 text-sm font-medium">
+                Logout
+            </a>
+
+        </div>
+    <% } %>
+
+    <!-- Page Heading -->
+    <section class="max-w-6xl mx-auto px-6 pt-10 pb-7">
+
+        <p class="text-sm uppercase tracking-[2px] text-[#b76549] font-semibold mb-2">
+            The Book Collection
+        </p>
+
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold text-[#25483f]">
+                    Our Books
+                </h1>
+
+                <p class="text-[#62665d] mt-2">
+                    Find a book worth spending your time with.
+                </p>
+            </div>
+        </div>
+
+        <div class="border-b border-[#d7d1c5] mt-7"></div>
+    </section>
+
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 px-6 pb-12">
+
+        <% if (books.length === 0) { %>
+
+            <p class="col-span-full text-center text-gray-500 py-10">
+                No books available right now.
+            </p>
+
+        <% } else { %>
+
+            <% books.forEach(book => { %>
+
+                <div class="w-full max-w-[240px] mx-auto bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 overflow-hidden">
+
+                 
+                    <div class="h-44 flex items-center justify-center bg-[#efebe2] px-4 py-3">
+
+                        <img
+                            src="/images/<%= (book.image || '').replace(/^\/?images\//, '') %>"
+                            alt="<%= book.title %>"
+                            class="h-36 max-w-full object-contain hover:scale-105 transition duration-300"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                        <div style="display:none;"
+                            class="h-full w-full items-center justify-center text-sm text-gray-500 text-center">
+                            Image not available
+                        </div>
+
+                    </div>
+
+                   
+                    <div class="px-4 py-3">
+
+                        <h2 class="text-base font-bold text-[#25483f] truncate">
+                            <%= book.title %>
+                        </h2>
+
+                        <p class="text-xs text-gray-500 mt-1 truncate">
+                            By <%= book.authorName %>
+                        </p>
+
+                        <div class="flex items-center justify-between mt-3">
+
+                            <p class="text-base font-bold text-[#25483f]">
+                                ₹<%= book.price %>
+                            </p>
+
+                            <span class="text-[11px] text-gray-500 truncate ml-2">
+                                <%= book.category %>
+                            </span>
+
+                        </div>
+
+                
+                        <% if (isAdmin) { %>
+
+                            <div class="flex gap-2 mt-3">
+
+                                <a href="/books/edit/<%= book._id %>"
+                                    class="flex-1 bg-[#25483f] hover:bg-[#19382f] text-white text-xs font-semibold py-2 rounded-md transition text-center">
+                                    Edit
+                                </a>
+
+                                <form action="/books/delete/<%= book._id %>"
+                                    method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this book?');">
+
+                                    <button type="submit"
+                                        class="bg-gray-100 hover:bg-red-50 text-gray-500 hover:text-red-600 text-xs px-3 py-2 rounded-md transition">
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        <% } else { %>
+
+                        
+                            <div class="flex gap-2 mt-3">
+
+                                
+<form action="/cart/add" method="POST" class="flex-1">
+    <input type="hidden" name="bookId" value="<%= book._id %>">
+
+    <button
+        type="submit"
+        class="w-full bg-gray-100 hover:bg-gray-200 text-[#25483f] text-xs font-semibold py-2 rounded-md">
+        Add to Cart
+    </button>
+</form>
+
+
+                                <a href="/buy-now/<%= book._id %>"
+                                    class="flex-1 bg-[#25483f] hover:bg-[#19382f] text-white text-xs font-semibold py-2 rounded-md text-center">
+                                    Buy Now
+                                </a>
+
+                            </div>
+
+                        <% } %>
+
+                    </div>
+                </div>
+
+            <% }); %>
+
+        <% } %>
+
+    </div>
+
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

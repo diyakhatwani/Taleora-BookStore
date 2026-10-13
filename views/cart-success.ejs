@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Successful - BookStore</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#f7f4ed] text-[#292f29]">
+
+    <%- include('includes/nav.ejs') %>
+
+    <main class="max-w-2xl mx-auto px-6 py-16">
+
+        <div class="bg-white border border-[#d7d1c5] rounded-lg p-8 text-center">
+
+            <div class="text-5xl text-[#25483f] mb-4">✓</div>
+
+            <h1 class="text-3xl font-bold text-[#25483f]">
+                Order Placed Successfully!
+            </h1>
+
+            <p class="text-gray-600 mt-3">
+                Thank you for shopping with Read Me.
+            </p>
+
+            <div class="text-left mt-8 border-t border-gray-200 pt-5">
+
+                <h2 class="font-bold text-xl text-[#25483f] mb-4">
+                    Your Order Details
+                </h2>
+
+                <% orders.forEach(order => { %>
+
+                    <div class="flex justify-between gap-4 py-2 border-b border-gray-100">
+                        <span><%= order.bookTitle %></span>
+                        <span>₹<%= order.price %></span>
+                    </div>
+
+                <% }) %>
+
+                <p class="font-semibold mt-4">
+                    Payment Method: Cash on Delivery
+                </p>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    Your order status is Pending.
+                </p>
+
+            </div>
+
+            <a href="/books"
+               class="inline-block mt-7 bg-[#25483f] hover:bg-[#19382f] text-white px-6 py-3 rounded-md">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
