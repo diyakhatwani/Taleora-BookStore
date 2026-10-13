@@ -755,34 +755,39 @@ app.get('/books', async (req, res) => {
         }
     });
 
-    app.get('/category/:category', async (req, res) => {
-        try {
-            const selectedCategory = req.params.category;
+   
+app.get('/category/:category', async (req, res) => {
+    try {
+        const selectedCategory = req.params.category.trim();
 
-            const safeCategory = selectedCategory.replace(
-                /[.*+?^${}()|[\]\\]/g,
-                '\\$&'
-            );
+        // Allow "Self Help", "Self-Help" and "SelfHelp"
+        const categoryParts = selectedCategory
+            .split(/[\s-]+/)
+            .map(part => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
 
-            const books = await Book.find({
-                category: {
-                    $regex: '^' + safeCategory + '$',
-                    $options: 'i'
-                }
-            });
+        const categoryPattern = '^' + categoryParts.join('[\\s-]*') + '$';
 
-            const categories = await Book.distinct('category');
+        const books = await Book.find({
+            category: {
+                $regex: categoryPattern,
+                $options: 'i'
+            }
+        }).sort({ _id: -1 });
 
-            res.render('categories', {
-                books,
-                categories,
-                selectedCategory
-            });
-        } catch (err) {
-            console.log(err);
-            res.status(500).send('Unable to load selected category');
-        }
-    });
+        const categories = await Book.distinct('category');
+
+        res.render('categories', {
+            books,
+            categories,
+            selectedCategory,
+            isAdmin: req.session.isAdmin === true
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Unable to load selected category');
+    }
+});
+
     app.get('/about', (req, res) => {
         res.render('about');
     });
