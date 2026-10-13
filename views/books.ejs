@@ -76,7 +76,9 @@
 
                         
                 <img
-                  src="/images/<%= (book.image || '').replace(/^\/?images\//, '').replace(/^\d{13}-(?=\d{13}-)/, '') %>"
+                 
+                    src="/images/<%= (book.image || '').replace(/^\/?images\//, '').replace(/^\d{13}-/, '').replace(/^\d{13}-/, '') %>"
+
                     alt="<%= book.title %>"
                     class="h-36 max-w-full object-contain hover:scale-105 transition duration-300"
                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
