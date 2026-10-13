@@ -178,7 +178,7 @@
                                     <% if (book.image) { %>
 
                                         <img
-                                            src="/images/<%= book.image.replace(/^\/?images\//, '') %>"
+                                           src="/images/<%= (book.image || '').replace(/^\/?images\//, '').replace(/^\d{13}-/, '').replace(/^\d{13}-/, '') %>"
                                             alt="<%= book.title %>"
                                             class="w-full h-full object-contain p-1"
                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
