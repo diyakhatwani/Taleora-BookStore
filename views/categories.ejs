@@ -71,7 +71,7 @@
 
                         <% if (book.image) { %>
                             <img
-                                src="/images/<%= book.image %>"
+                               src="/images/<%= (book.image || '').replace(/^\/?images\//, '').replace(/^\d{13}-/, '').replace(/^\d{13}-/, '') %>"
                                 alt="<%= book.title %>"
                                 class="h-36 w-auto max-w-full object-contain"
                                 onerror="this.style.display='none';"
