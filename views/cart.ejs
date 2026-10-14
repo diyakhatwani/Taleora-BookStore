@@ -98,11 +98,14 @@
                             <div class="w-20 h-24 bg-[#efebe2] flex items-center justify-center">
                                 <% if (item.book.image) { %>
                                     
-                            <img
-                                src="/<%= item.book.image.replace(/^\/?images\//, '').replace(/^\/+/, '') %>"
-                                alt="<%= item.book.title %>"
-                                class="max-h-full max-w-full object-contain"
-                                onerror="this.style.display='none'">
+                                                        
+                                <% if (item.book.image) { %>
+                                    <img
+                                        src="/images/<%= item.book.image.replace(/^\/?images\//, '') %>"
+                                        alt="<%= item.book.title %>"
+                                        class="max-h-full max-w-full object-contain"
+                                        onerror="this.style.display='none'">
+                                <% } %>
 
                             </div>
 
