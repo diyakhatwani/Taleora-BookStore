@@ -796,13 +796,17 @@ app.get('/category/:category', async (req, res) => {
     const CONTACT_EMAIL = process.env.CONTACT_EMAIL;
 
 
-    const transport = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
+ 
+const transport = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  },
+  connectionTimeout: 15000,
+  greetingTimeout: 15000,
+  socketTimeout: 20000
+});
 
 
 
@@ -836,7 +840,7 @@ app.get('/category/:category', async (req, res) => {
             }
             console.log("Contact route reached. Email configured:", Boolean(EMAIL_USER && EMAIL_PASS && CONTACT_EMAIL));
 
-
+                        console.log('Starting to send contact email...');
             await transport.sendMail({
                 from: EMAIL_USER,
                 to: CONTACT_EMAIL,
@@ -847,6 +851,7 @@ app.get('/category/:category', async (req, res) => {
                     'Email: ' + email.trim() + '\n\n' +
                     message.trim()
             });
+            console.log('Contact email sent successfully!');
 
             res.render('contact', {
                 message: 'Your message has been sent successfully!',
