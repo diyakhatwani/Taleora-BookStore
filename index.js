@@ -840,18 +840,23 @@ const transport = nodemailer.createTransport({
             }
             console.log("Contact route reached. Email configured:", Boolean(EMAIL_USER && EMAIL_PASS && CONTACT_EMAIL));
 
-                        console.log('Starting to send contact email...');
-            await transport.sendMail({
-                from: EMAIL_USER,
-                to: CONTACT_EMAIL,
-                replyTo: email.trim(),
-                subject: subject?.trim() || 'New message from Read Me Book Store',
-                text:
-                    'Name: ' + name.trim() + '\n' +
-                    'Email: ' + email.trim() + '\n\n' +
-                    message.trim()
+                                
+            const dns = require('node:dns');
+            dns.setDefaultResultOrder('ipv4first');
+
+            const transport = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            requireTLS: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            },
+            connectionTimeout: 15000,
+            greetingTimeout: 15000,
+            socketTimeout: 20000
             });
-            console.log('Contact email sent successfully!');
 
             res.render('contact', {
                 message: 'Your message has been sent successfully!',
