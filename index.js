@@ -843,7 +843,7 @@ const transport = nodemailer.createTransport({
                                 
             const dns = require('node:dns');
             dns.setDefaultResultOrder('ipv4first');
-
+            console.log('Starting to send contact email...');
             const transport = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
@@ -872,7 +872,7 @@ const transport = nodemailer.createTransport({
         }
     });
 
-
+    console.log('Contact email sent successfully!');
 
     app.listen(port, () => {
         console.log(`Server running at http://localhost:${port}`);
